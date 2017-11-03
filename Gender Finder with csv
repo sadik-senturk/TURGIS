@@ -1,0 +1,81 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Oct 22 21:09:18 2017
+
+@author: Ailem-Baba: ALP ER TUNGA
+"""
+#Data collection
+import csv
+from sklearn import tree
+
+X=[]
+Y=[]
+Z=[]
+#ZZ=[]
+#Veri Bankası X ve Y
+DizinXY="\\Deneme\Projects\Veriler.csv"
+VerilerXY_csv=open(DizinXY, newline='')
+OkuXY=csv.reader(VerilerXY_csv)
+
+header=next(OkuXY)
+
+for row in OkuXY:
+    HeightXY=int(row[0])
+    WeightXY=int(row[1])
+    Shoe_sizeXY=int(row[2])
+    GenderXY=row[3]
+    X.append([HeightXY,WeightXY,Shoe_sizeXY])
+    Y.append([GenderXY])
+print ('X: ',X)
+print (' Y: ',Y)
+
+#Tahmin edilecek veriler...Z
+#Estimation
+DizinZ="\\Deneme\Projects\Veriler_Z.csv"
+VerilerZ_csv=open(DizinZ, newline='')
+OkuZ=csv.reader(VerilerZ_csv)
+
+#header=next(OkuZ)
+
+#Sonuçları dosyaya kaydet
+#Data recording
+DizinZZ= "\\Deneme\Projects\Veriler_ZZ.csv"
+SonucZZ_csv=open(DizinZZ, 'w') #wb: mevcut dosya içeriğini ve ve yeniden başla
+YazZZ=csv.writer(SonucZZ_csv, delimiter =',',quoting=csv.QUOTE_MINIMAL)
+#Tahmin işlevi
+clf =tree.DecisionTreeClassifier()
+clf=clf.fit(X,Y)
+
+for row in OkuZ:
+    HeightZ=int(row[0])
+    WeightZ=int(row[1])
+    Shoe_sizeZ=int(row[2])
+    Z=([HeightZ,WeightZ,Shoe_sizeZ])
+    Tahmin=clf.predict([Z])
+    TahminZ=str(Tahmin) #String olarak gereksiz karakterler siliniyor.
+    print ('Z: ',Z,' Tahmin:',TahminZ) #Tahmin değeri ZZ, Veriler_ZZ dosyasına yazılıyor.
+    ZZ=[HeightZ,WeightZ,Shoe_sizeZ, TahminZ] #Dosyaya kayıt biçimi
+    print ('Sonuç ZZ: ',ZZ)
+    YazZZ.writerow(ZZ) #Dosyaya kayıt biçimi
+    
+#runfile('E:/Deneme/TensorFlow/Cinsiyet_Bulma_csv_analizli.py', wdir='E:/Deneme/TensorFlow')
+#X:  [[181, 89, 44], [177, 70, 43], [160, 60, 38], [154, 54, 37], [166, 65, 40], [190, 90, 47], [175, 64, 39], [177, 70, 40], [115, 38, 25], [85, 35, 26], [55, 36, 24], [0, 0, 0]]
+# Y:  [['male'], ['female'], ['female'], ['female'], ['male'], ['male'], ['male'], ['female'], ['adult'], ['child'], ['child'], ['0']]
+#Z:  [181, 67, 41]  Tahmin: ['male']
+#Sonuç ZZ:  [181, 67, 41, "['male']"]
+#Z:  [167, 70, 38]  Tahmin: ['female']
+#Sonuç ZZ:  [167, 70, 38, "['female']"]
+#Z:  [160, 59, 39]  Tahmin: ['male']
+#Sonuç ZZ:  [160, 59, 39, "['male']"]
+#Z:  [154, 55, 37]  Tahmin: ['female']
+#Sonuç ZZ:  [154, 55, 37, "['female']"]
+#Z:  [165, 68, 40]  Tahmin: ['male']
+#Sonuç ZZ:  [165, 68, 40, "['male']"]
+#Z:  [190, 90, 46]  Tahmin: ['male']
+#Sonuç ZZ:  [190, 90, 46, "['male']"]
+#Z:  [176, 64, 39]  Tahmin: ['male']
+#Sonuç ZZ:  [176, 64, 39, "['male']"]
+#Z:  [175, 75, 40]  Tahmin: ['male']
+#Sonuç ZZ:  [175, 75, 40, "['male']"]
+
+#Learning
