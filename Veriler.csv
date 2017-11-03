@@ -1,0 +1,13 @@
+Height,Weight,Shoe_size,Gender
+181, 89, 44,male
+177, 70, 43,female
+160, 60, 38,female
+154, 54, 37,female
+166,65,40,male
+190,90,47,male
+175,64,39,male
+177,70,40,female
+115,38,25,adult
+85,35,26,child
+55,36,24,child
+0,0,0,0,error
